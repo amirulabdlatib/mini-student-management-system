@@ -20,9 +20,12 @@ export default function useAuth() {
     const attempt = async () => {
         try {
             const response = await axios.get("/api/user");
+
             setAuthenticated(true);
             console.log(response);
             setUser(response.data);
+
+            return response;
         } catch (error) {
             setAuthenticated(false);
             setUser({});
