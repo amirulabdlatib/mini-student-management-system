@@ -8,6 +8,7 @@
     });
 
     const login = async () => {
+        await axios.get("/sanctum/csrf-cookie");
         const response = await axios.post("/login", form);
 
         console.log(response);
