@@ -1,5 +1,5 @@
 import axios from "axios";
-import { computed, reactive } from "vue";
+import { computed, reactive, ref } from "vue";
 
 const state = reactive({
     authenticated: false,
@@ -7,6 +7,8 @@ const state = reactive({
 });
 
 export default function useAuth() {
+    const errors = ref({});
+
     const authenticated = computed(() => state.authenticated);
 
     const user = computed(() => state.user);
@@ -41,6 +43,12 @@ export default function useAuth() {
             return attempt();
         } catch (error) {
             console.log(error);
+            if (error.response.status == 422) {
+                errors.value = error.response.data.errors;
+                // console.log(errors.value.email[0]);
+
+                return Promise.reject(null);
+            }
         }
     };
 
@@ -49,5 +57,6 @@ export default function useAuth() {
         user,
         login,
         attempt,
+        errors,
     };
 }
