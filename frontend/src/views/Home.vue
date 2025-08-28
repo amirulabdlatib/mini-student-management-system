@@ -3,8 +3,8 @@
     import { reactive } from "vue";
 
     const form = reactive({
-        email: "admin@example.com",
-        password: "password",
+        email: "",
+        password: "",
     });
 
     const login = async () => {
