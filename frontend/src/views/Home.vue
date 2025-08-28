@@ -3,12 +3,12 @@
     import { reactive } from "vue";
 
     const form = reactive({
-        email: "",
-        password: "",
+        email: "admin@example.com",
+        password: "password",
     });
 
     const login = async () => {
-        const response = axios.post("http://127.0.0.1:8000/login");
+        const response = await axios.post("/login", form);
 
         console.log(response);
     };
