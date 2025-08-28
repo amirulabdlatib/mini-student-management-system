@@ -1,7 +1,6 @@
 <script setup>
     import Navigation from "@/components/Navigation.vue";
     import useAuth from "@/composable/useAuth";
-    import axios from "axios";
     import { reactive } from "vue";
 
     const form = reactive({

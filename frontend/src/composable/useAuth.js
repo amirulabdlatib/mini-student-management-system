@@ -11,18 +11,31 @@ export default function useAuth() {
 
     const user = computed(() => state.user);
 
-    const setAuth = (authenticated) => (state.authenticated = authenticated);
+    const setAuthenticated = (authenticated) => (state.authenticated = authenticated);
 
     const setUser = (user) => {
         state.user = user;
+    };
+
+    const attempt = async () => {
+        try {
+            const response = await axios.get("/api/user");
+            setAuthenticated(true);
+            console.log(response);
+            setUser(response.data);
+        } catch (error) {
+            setAuthenticated(false);
+            setUser({});
+            console.log(error);
+        }
     };
 
     const login = async (form) => {
         await axios.get("/sanctum/csrf-cookie");
 
         try {
-            const response = await axios.post("/login", form);
-            console.log(response);
+            await axios.post("/login", form);
+            return attempt();
         } catch (error) {
             console.log(error);
         }
@@ -32,5 +45,6 @@ export default function useAuth() {
         authenticated,
         user,
         login,
+        attempt,
     };
 }
