@@ -52,11 +52,22 @@ export default function useAuth() {
         }
     };
 
+    const logout = async () => {
+        try {
+            setAuthenticated(false);
+            setUser({});
+        } catch (error) {
+            return Promise.reject(null);
+        }
+        await axios.post("/logout");
+    };
+
     return {
         authenticated,
         user,
+        errors,
         login,
         attempt,
-        errors,
+        logout,
     };
 }
