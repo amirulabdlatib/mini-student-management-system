@@ -1,5 +1,6 @@
 <script setup>
     import useAuth from "@/composable/useAuth";
+    import router from "@/router";
     import { reactive } from "vue";
 
     const form = reactive({
@@ -10,7 +11,9 @@
     const { login: loginAction, errors } = useAuth();
 
     const login = async () => {
-        loginAction(form);
+        loginAction(form).then(() => {
+            router.push({ name: "dashboard" });
+        });
     };
 </script>
 
