@@ -14,7 +14,7 @@
                 <a href="#" class="-m-1.5 p-1.5">
                     <span class="text-xl font-bold"> Product Name </span>
                 </a>
-                <div class="hidden lg:flex lg:gap-x-12">
+                <div v-if="authenticated" class="hidden lg:flex lg:gap-x-12">
                     <RouterLink :to="{ name: 'dashboard' }" class="text-sm font-semibold leading-6 text-gray-900"> Dashboard </RouterLink>
                 </div>
             </div>
@@ -53,7 +53,7 @@
                 </div>
                 <div class="mt-6 flow-root">
                     <div class="-my-6 divide-y divide-gray-500/10">
-                        <div class="space-y-2 py-6">
+                        <div v-if="authenticated" class="space-y-2 py-6">
                             <RouterLink :to="{ name: 'dashboard' }" class="text-sm font-semibold leading-6 text-gray-900"> Dashboard </RouterLink>
                         </div>
                         <div class="py-6">
