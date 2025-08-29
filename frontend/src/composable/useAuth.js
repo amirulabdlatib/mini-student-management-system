@@ -24,7 +24,7 @@ export default function useAuth() {
             const response = await axios.get("/api/user");
 
             setAuthenticated(true);
-            console.log(response);
+            // console.log(response);
             setUser(response.data);
 
             return response;
