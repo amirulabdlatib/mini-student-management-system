@@ -2,8 +2,17 @@
     import { RouterLink } from "vue-router";
     import useAuth from "../composable/useAuth";
     import { ref } from "vue";
+    import router from "@/router";
 
-    const { user, authenticated, logout } = useAuth();
+    const { user, authenticated, logout: logoutAction } = useAuth();
+
+    const logout = () => {
+        logoutAction().then(() => {
+            mobileNavigation.value = false;
+            router.push({ name: "login" });
+        });
+    };
+
     const mobileNavigation = ref(false);
 </script>
 
