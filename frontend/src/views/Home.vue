@@ -1,5 +1,4 @@
 <script setup>
-    import Navigation from "@/components/Navigation.vue";
     import useAuth from "@/composable/useAuth";
     import { reactive } from "vue";
 
@@ -16,7 +15,6 @@
 </script>
 
 <template>
-    <Navigation />
     <form @submit.prevent="login">
         <input type="text" name="email" id="email" placeholder="Email" v-model="form.email" />
         <p v-if="errors.email">{{ errors.email[0] }}</p>

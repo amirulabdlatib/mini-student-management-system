@@ -1,4 +1,5 @@
 <script setup>
+    import { RouterLink } from "vue-router";
     import useAuth from "../composable/useAuth";
 
     const { user, authenticated, logout } = useAuth();
@@ -12,7 +13,7 @@
                     <span class="text-xl font-bold"> Product Name </span>
                 </a>
                 <div class="hidden lg:flex lg:gap-x-12">
-                    <a href="#" class="text-sm font-semibold leading-6 text-gray-900"> Dashboard </a>
+                    <RouterLink :to="{ name: 'dashboard' }" class="text-sm font-semibold leading-6 text-gray-900"> Dashboard </RouterLink>
                 </div>
             </div>
             <div class="flex lg:hidden">
@@ -25,10 +26,10 @@
             </div>
             <div class="hidden lg:flex">
                 <div class="flex items-center space-x-6">
-                    <div class="text-sm font-semibold leading-6 text-gray-900">User name</div>
-                    <button class="text-sm font-semibold leading-6 text-gray-900">Log out &rarr;</button>
+                    <div class="text-sm font-semibold leading-6 text-gray-900">{{ user.name }}</div>
+                    <button v-if="authenticated" @click="logout" class="text-sm font-semibold leading-6 text-gray-900">Log out &rarr;</button>
                 </div>
-                <div>
+                <div v-if="!authenticated">
                     <a href="#" class="text-sm font-semibold leading-6 text-gray-900"> Log in &rarr; </a>
                 </div>
             </div>
