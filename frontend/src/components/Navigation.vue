@@ -32,7 +32,7 @@
                     <button v-if="authenticated" @click="logout" class="text-sm font-semibold leading-6 text-gray-900">Log out &rarr;</button>
                 </div>
                 <div v-if="!authenticated">
-                    <a href="#" class="text-sm font-semibold leading-6 text-gray-900"> Log in &rarr; </a>
+                    <RouterLink :to="{ name: 'login' }" class="text-sm font-semibold leading-6 text-gray-900"> Log in &rarr; </RouterLink>
                 </div>
             </div>
         </nav>
@@ -61,7 +61,7 @@
                                 <button @click="logout" class="w-full text-left -mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Log out</button>
                             </div>
                             <div v-if="!authenticated">
-                                <a href="#" class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"> Log in </a>
+                                <RouterLink :to="{ name: 'login' }" class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"> Log in </RouterLink>
                             </div>
                         </div>
                     </div>
