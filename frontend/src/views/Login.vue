@@ -1,4 +1,5 @@
 <script setup>
+    import Spinner from "@/components/Spinner.vue";
     import useAuth from "@/composable/useAuth";
     import { ref, reactive } from "vue";
     import { useRouter } from "vue-router";
@@ -70,10 +71,7 @@
                         class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-indigo-600">
                         <span v-if="!isSubmitting">Sign in</span>
                         <span v-else class="flex items-center gap-2">
-                            <svg class="h-5 w-5 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
-                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
-                            </svg>
+                            <Spinner />
                             Signing in...
                         </span>
                     </button>
