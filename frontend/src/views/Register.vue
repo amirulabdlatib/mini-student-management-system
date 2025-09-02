@@ -1,6 +1,7 @@
 <script setup>
     import Spinner from "@/components/Spinner.vue";
     import useAuth from "@/composable/useAuth";
+    import axios from "axios";
     import { ref, reactive } from "vue";
     import { useRouter } from "vue-router";
 
@@ -13,14 +14,25 @@
         password_confirmation: "",
     });
 
-    const { login: loginAction, errors } = useAuth();
+    const { attempt } = useAuth();
+    const errors = ref({});
     const isSubmitting = ref(false);
 
-    const login = async () => {
+    const register = async () => {
         isSubmitting.value = true;
-        loginAction(form)
+        await axios.get("/sanctum/csrf-cookie");
+
+        await axios
+            .post("/register", form)
             .then(() => {
-                router.push({ name: "dashboard" });
+                attempt().then(() => {
+                    router.push({ name: "dashboard" });
+                });
+            })
+            .catch((error) => {
+                if (error.response.status == 422) {
+                    errors.value = error.response.data.errors;
+                }
             })
             .finally(() => {
                 isSubmitting.value = false;
@@ -35,7 +47,7 @@
         </div>
 
         <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-            <form class="space-y-6" @submit.prevent="login">
+            <form class="space-y-6" @submit.prevent="register">
                 <div>
                     <label for="name" class="block text-sm font-medium leading-6 text-gray-900">Name</label>
                     <div class="mt-2">
@@ -44,7 +56,7 @@
                             id="name"
                             name="name"
                             type="name"
-                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                            class="px-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                     </div>
                     <p class="mt-2 text-sm text-red-600" v-if="errors.name">
                         {{ errors.name[0] }}
@@ -88,7 +100,7 @@
                             v-model="form.password_confirmation"
                             id="password_confirmation"
                             name="password_confirmation"
-                            type="password_confirmation"
+                            type="password"
                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                     </div>
                     <p class="mt-2 text-sm text-red-600" v-if="errors.password_confirmation">
@@ -103,7 +115,7 @@
                         class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-indigo-600">
                         <span v-if="!isSubmitting">Register</span>
                         <span v-else class="flex items-center gap-2">
-                            Creating..
+                            Creating...
                             <Spinner />
                         </span>
                     </button>
