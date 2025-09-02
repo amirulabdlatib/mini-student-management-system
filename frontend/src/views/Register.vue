@@ -37,6 +37,21 @@
         <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
             <form class="space-y-6" @submit.prevent="login">
                 <div>
+                    <label for="name" class="block text-sm font-medium leading-6 text-gray-900">Name</label>
+                    <div class="mt-2">
+                        <input
+                            v-model="form.name"
+                            id="name"
+                            name="name"
+                            type="name"
+                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                    </div>
+                    <p class="mt-2 text-sm text-red-600" v-if="errors.name">
+                        {{ errors.name[0] }}
+                    </p>
+                </div>
+
+                <div>
                     <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email address</label>
                     <div class="mt-2">
                         <input
@@ -46,7 +61,7 @@
                             type="email"
                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                     </div>
-                    <p class="mt-2 text-sm text-red-600" id="email-error" v-if="errors.email">
+                    <p class="mt-2 text-sm text-red-600" v-if="errors.email">
                         {{ errors.email[0] }}
                     </p>
                 </div>
@@ -61,8 +76,23 @@
                             type="password"
                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                     </div>
-                    <p class="mt-2 text-sm text-red-600" id="email-error" v-if="errors.password">
+                    <p class="mt-2 text-sm text-red-600" v-if="errors.password">
                         {{ errors.password[0] }}
+                    </p>
+                </div>
+
+                <div>
+                    <label for="password_confirmation" class="block text-sm font-medium leading-6 text-gray-900">Confirm Password</label>
+                    <div class="mt-2">
+                        <input
+                            v-model="form.password_confirmation"
+                            id="password_confirmation"
+                            name="password_confirmation"
+                            type="password_confirmation"
+                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                    </div>
+                    <p class="mt-2 text-sm text-red-600" v-if="errors.password_confirmation">
+                        {{ errors.password_confirmation[0] }}
                     </p>
                 </div>
 
@@ -73,8 +103,8 @@
                         class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-indigo-600">
                         <span v-if="!isSubmitting">Register</span>
                         <span v-else class="flex items-center gap-2">
+                            Creating..
                             <Spinner />
-                            Registering...
                         </span>
                     </button>
                 </div>

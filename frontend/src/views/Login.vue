@@ -44,7 +44,7 @@
                             type="email"
                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                     </div>
-                    <p class="mt-2 text-sm text-red-600" id="email-error" v-if="errors.email">
+                    <p class="mt-2 text-sm text-red-600" v-if="errors.email">
                         {{ errors.email[0] }}
                     </p>
                 </div>
@@ -59,7 +59,7 @@
                             type="password"
                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                     </div>
-                    <p class="mt-2 text-sm text-red-600" id="email-error" v-if="errors.password">
+                    <p class="mt-2 text-sm text-red-600" v-if="errors.password">
                         {{ errors.password[0] }}
                     </p>
                 </div>
@@ -71,8 +71,8 @@
                         class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-indigo-600">
                         <span v-if="!isSubmitting">Sign in</span>
                         <span v-else class="flex items-center gap-2">
-                            <Spinner />
                             Signing in...
+                            <Spinner />
                         </span>
                     </button>
                 </div>
