@@ -1,4 +1,15 @@
-<script setup></script>
+<script setup>
+    import useStudent from "@/composable/useStudent";
+    import { onMounted, ref } from "vue";
+
+    const { fetchStudents } = useStudent();
+
+    const students = ref([]);
+
+    onMounted(() => {
+        fetchStudents();
+    });
+</script>
 
 <template>
     <div class="py-10">

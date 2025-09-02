@@ -13,10 +13,10 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $studentsQuery = Student::query();
+        // $studentsQuery = Student::query();
 
         return StudentResource::collection(
-            $studentsQuery->paginate(10)
+            Student::latest()->limit(20)->get()
         );
     }
 
