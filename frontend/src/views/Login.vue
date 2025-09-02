@@ -1,6 +1,6 @@
 <script setup>
     import useAuth from "@/composable/useAuth";
-    import { reactive } from "vue";
+    import { ref, reactive } from "vue";
     import { useRouter } from "vue-router";
 
     const router = useRouter();
@@ -11,11 +11,17 @@
     });
 
     const { login: loginAction, errors } = useAuth();
+    const isSubmitting = ref(false);
 
     const login = async () => {
-        loginAction(form).then(() => {
-            router.push({ name: "dashboard" });
-        });
+        isSubmitting.value = true;
+        loginAction(form)
+            .then(() => {
+                router.push({ name: "dashboard" });
+            })
+            .finally(() => {
+                isSubmitting.value = false;
+            });
     };
 </script>
 
@@ -59,9 +65,11 @@
 
                 <div>
                     <button
+                        :disabled="isSubmitting"
                         type="submit"
-                        class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                        Sign in
+                        class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-indigo-600">
+                        <span v-if="!isSubmitting">Sign in</span>
+                        <span v-else>Signing in...</span>
                     </button>
                 </div>
             </form>
