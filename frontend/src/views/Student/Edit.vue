@@ -12,6 +12,7 @@
     const { getStudent, updateStudent, errors } = useStudent();
     const route = useRoute();
 
+    const isLoading = ref(false);
     const isUpdating = ref(false);
 
     const form = reactive({
@@ -42,6 +43,7 @@
     );
 
     onMounted(async () => {
+        isLoading.value = true;
         await fetchClasses();
 
         let response = await getStudent(route.params.id);
@@ -49,6 +51,7 @@
         form.email = response.student.email;
         form.class_id = response.student.class.id;
         form.section_id = response.student.section.id;
+        isLoading.value = false;
     });
 </script>
 
@@ -56,7 +59,14 @@
     <div class="mx-auto py-6 sm:px-6 lg:px-8">
         <div class="lg:grid lg:grid-cols-12 lg:gap-x-5">
             <div class="space-y-6 sm:px-6 lg:px-0 lg:col-span-12">
-                <form @submit.prevent="submit">
+                <div v-if="isLoading" class="mt-8 flex justify-center items-center">
+                    <svg class="animate-spin h-6 w-6 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+                    </svg>
+                </div>
+
+                <form v-else @submit.prevent="submit">
                     <div class="shadow sm:rounded-md sm:overflow-hidden">
                         <div class="bg-white py-6 px-4 space-y-6 sm:p-6">
                             <div>
