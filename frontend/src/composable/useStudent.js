@@ -55,8 +55,7 @@ export default function useStudent() {
 
     const deleteStudent = async (id) => {
         try {
-            let response = await axios.delete("api/students/" + id);
-            return response.data;
+            await axios.delete("api/students/" + id);
         } catch (error) {
             console.log(error);
             return Promise.reject(null);

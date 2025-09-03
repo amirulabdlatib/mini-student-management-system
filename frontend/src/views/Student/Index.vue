@@ -9,9 +9,8 @@
 
     const deleteAction = async (id) => {
         if (confirm("Are you sure delete?")) {
-            await deleteStudent(id).then(() => {
-                students.value = students.value.filter((student) => student.id != id);
-            });
+            await deleteStudent(id);
+            students.value = students.value.filter((student) => student.id != id);
         }
     };
 
