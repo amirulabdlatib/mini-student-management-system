@@ -43,7 +43,7 @@ const router = createRouter({
             },
         },
         {
-            path: "/students/edit/:id",
+            path: "/students/:id/edit",
             name: "students.edit",
             component: Edit,
             meta: {

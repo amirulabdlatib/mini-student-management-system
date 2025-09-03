@@ -5,10 +5,13 @@
     import useStudent from "@/composable/useStudent";
     import router from "@/router";
     import { onMounted, reactive, watch, ref } from "vue";
+    import { useRoute } from "vue-router";
 
     const { fetchClasses, classes } = useClass();
     const { fetchSections, sections } = useSection();
-    const { updateStudent, errors } = useStudent();
+    const { getStudent, updateStudent, errors } = useStudent();
+    const route = useRoute();
+
     const isUpdating = ref(false);
 
     const form = reactive({
@@ -18,9 +21,9 @@
         section_id: "",
     });
 
-    const submit = async (form) => {
+    const submit = async (id, form) => {
         isUpdating.value = true;
-        await updateStudent(form)
+        await updateStudent(id, form)
             .then(() => {
                 router.push({ name: "students.index" });
             })
@@ -40,6 +43,12 @@
 
     onMounted(async () => {
         await fetchClasses();
+
+        let response = await getStudent(route.params.id);
+        form.name = response.student.name;
+        form.email = response.student.email;
+        form.class_id = response.student.class.id;
+        form.section_id = response.student.section.id;
     });
 </script>
 
@@ -47,7 +56,7 @@
     <div class="mx-auto py-6 sm:px-6 lg:px-8">
         <div class="lg:grid lg:grid-cols-12 lg:gap-x-5">
             <div class="space-y-6 sm:px-6 lg:px-0 lg:col-span-12">
-                <form @submit.prevent="submit(form)">
+                <form @submit.prevent="submit(route.params.id, form)">
                     <div class="shadow sm:rounded-md sm:overflow-hidden">
                         <div class="bg-white py-6 px-4 space-y-6 sm:p-6">
                             <div>
