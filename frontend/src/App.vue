@@ -4,7 +4,7 @@
 </script>
 
 <template>
-    <Navigation />
+    <Navigation class="shadow-xl" />
     <div class="py-6 lg:py-8">
         <div class="mx-auto max-w-7xl px-6 lg-px-8">
             <RouterView />
