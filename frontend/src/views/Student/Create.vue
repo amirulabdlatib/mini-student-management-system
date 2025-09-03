@@ -1,4 +1,13 @@
-<script setup></script>
+<script setup>
+    import useClass from "@/composable/useClass";
+    import { onMounted } from "vue";
+
+    const { fetchClasses, classes } = useClass();
+
+    onMounted(async () => {
+        await fetchClasses();
+    });
+</script>
 
 <template>
     <div class="mx-auto py-6 sm:px-6 lg:px-8">
@@ -32,7 +41,7 @@
                                     <label for="class_id" class="block text-sm font-medium text-gray-700">Class</label>
                                     <select id="class_id" class="mt-1 block w-full bg-white border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                         <option value="">Select a Class</option>
-                                        <option value="1">Class 1</option>
+                                        <option v-for="item in classes" :key="item.id" :value="item.id">{{ item.name }}</option>
                                     </select>
                                 </div>
 
