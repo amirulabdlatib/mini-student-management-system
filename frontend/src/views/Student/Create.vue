@@ -1,8 +1,26 @@
 <script setup>
     import useClass from "@/composable/useClass";
-    import { onMounted } from "vue";
+    import useSection from "@/composable/useSection";
+    import { onMounted, reactive, watch } from "vue";
 
     const { fetchClasses, classes } = useClass();
+    const { fetchSections, sections } = useSection();
+
+    const form = reactive({
+        name: "",
+        email: "",
+        class_id: "",
+        section_id: "",
+    });
+
+    watch(
+        () => form.class_id,
+        async (newValue) => {
+            if (newValue) {
+                await fetchSections(newValue);
+            }
+        }
+    );
 
     onMounted(async () => {
         await fetchClasses();
@@ -24,13 +42,14 @@
                             <div class="grid grid-cols-6 gap-6">
                                 <div class="col-span-6 sm:col-span-3">
                                     <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-                                    <input type="text" id="name" class="mt-1 block w-full border rounded-md shadow-sm py-2 px-3 focus:outline-none border-red-300 @enderror" />
+                                    <input v-model="form.name" type="text" id="name" class="mt-1 block w-full border rounded-md shadow-sm py-2 px-3 focus:outline-none border-red-300 @enderror" />
                                     <p class="text-red-500">This field is required</p>
                                 </div>
 
                                 <div class="col-span-6 sm:col-span-3">
                                     <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
                                     <input
+                                        v-model="form.email"
                                         type="email"
                                         id="email"
                                         autocomplete="email"
@@ -39,7 +58,10 @@
 
                                 <div class="col-span-6 sm:col-span-3">
                                     <label for="class_id" class="block text-sm font-medium text-gray-700">Class</label>
-                                    <select id="class_id" class="mt-1 block w-full bg-white border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                    <select
+                                        v-model="form.class_id"
+                                        id="class_id"
+                                        class="mt-1 block w-full bg-white border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                         <option value="">Select a Class</option>
                                         <option v-for="item in classes" :key="item.id" :value="item.id">{{ item.name }}</option>
                                     </select>
@@ -47,9 +69,12 @@
 
                                 <div class="col-span-6 sm:col-span-3">
                                     <label for="section_id" class="block text-sm font-medium text-gray-700">Section</label>
-                                    <select id="section_id" class="mt-1 block w-full bg-white border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                    <select
+                                        v-model="form.section_id"
+                                        id="section_id"
+                                        class="mt-1 block w-full bg-white border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                         <option value="">Select a Section</option>
-                                        <option value="1">Section A</option>
+                                        <option v-for="section in sections" :key="section.id" :value="section.id">{{ section.name }}</option>
                                     </select>
                                 </div>
                             </div>
