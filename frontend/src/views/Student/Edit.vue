@@ -21,9 +21,9 @@
         section_id: "",
     });
 
-    const submit = async (id, form) => {
+    const submit = async () => {
         isUpdating.value = true;
-        await updateStudent(id, form)
+        await updateStudent(route.params.id, form)
             .then(() => {
                 router.push({ name: "students.index" });
             })
@@ -56,7 +56,7 @@
     <div class="mx-auto py-6 sm:px-6 lg:px-8">
         <div class="lg:grid lg:grid-cols-12 lg:gap-x-5">
             <div class="space-y-6 sm:px-6 lg:px-0 lg:col-span-12">
-                <form @submit.prevent="submit(route.params.id, form)">
+                <form @submit.prevent="submit">
                     <div class="shadow sm:rounded-md sm:overflow-hidden">
                         <div class="bg-white py-6 px-4 space-y-6 sm:p-6">
                             <div>
