@@ -61,8 +61,13 @@ class StudentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Student $student)
     {
-        //
+        $student->delete();
+
+        return response()->json([
+            'message' =>'Student deleted!',
+            'status' => 'success',
+        ],Response::HTTP_OK);
     }
 }

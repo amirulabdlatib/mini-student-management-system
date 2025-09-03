@@ -3,9 +3,17 @@
     import { onMounted, ref } from "vue";
     import { RouterLink } from "vue-router";
 
-    const { fetchStudents, students } = useStudent();
+    const { fetchStudents, deleteStudent, students } = useStudent();
 
     const isLoading = ref(true);
+
+    const deleteAction = async (id) => {
+        if (confirm("Are you sure delete?")) {
+            await deleteStudent(id).then(() => {
+                students.value = students.value.filter((student) => student.id != id);
+            });
+        }
+    };
 
     onMounted(async () => {
         isLoading.value = true;
@@ -67,7 +75,7 @@
 
                                             <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                                                 <RouterLink :to="{ name: 'students.edit', params: { id: student.id } }" class="text-indigo-600 hover:text-indigo-900"> Edit </RouterLink>
-                                                <button class="ml-2 text-indigo-600 hover:text-indigo-900">Delete</button>
+                                                <button @click="deleteAction(student.id)" class="ml-2 text-indigo-600 hover:text-indigo-900">Delete</button>
                                             </td>
                                         </tr>
                                     </tbody>
