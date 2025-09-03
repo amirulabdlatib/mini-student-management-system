@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreStudentRequest;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use App\Http\Resources\StudentResource;
+use Illuminate\Http\Response;
+use App\Http\Requests\StoreStudentRequest;
 
 class StudentController extends Controller
 {
@@ -26,9 +27,12 @@ class StudentController extends Controller
      */
     public function store(StoreStudentRequest $request)
     {
-        $student = Student::create($request->validated());
+        Student::create($request->validated());
 
-        return StudentResource::make($student);
+        return response()->json([
+            'message' => 'Student created successfully.',
+            'status' => 'success',
+        ],Response::HTTP_CREATED);
     }
 
     /**

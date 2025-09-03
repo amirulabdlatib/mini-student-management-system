@@ -3,6 +3,8 @@ import { ref } from "vue";
 
 export default function useStudent() {
     let students = ref({});
+    let errors = ref({});
+
     const fetchStudents = async () => {
         try {
             let response = await axios("/api/students");
@@ -13,8 +15,24 @@ export default function useStudent() {
         }
     };
 
+    const createStudent = async (form) => {
+        try {
+            let response = await axios.post("/api/students", form);
+
+            return response;
+        } catch (error) {
+            if (error.response.status == 422) {
+                errors.value = error.response.data.errors;
+            }
+
+            return Promise.reject(null);
+        }
+    };
+
     return {
         fetchStudents,
         students,
+        errors,
+        createStudent,
     };
 }

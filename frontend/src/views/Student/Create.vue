@@ -1,10 +1,13 @@
 <script setup>
     import useClass from "@/composable/useClass";
     import useSection from "@/composable/useSection";
+    import useStudent from "@/composable/useStudent";
+    import router from "@/router";
     import { onMounted, reactive, watch } from "vue";
 
     const { fetchClasses, classes } = useClass();
     const { fetchSections, sections } = useSection();
+    const { createStudent, errors } = useStudent();
 
     const form = reactive({
         name: "",
@@ -12,6 +15,12 @@
         class_id: "",
         section_id: "",
     });
+
+    const submit = async (form) => {
+        await createStudent(form).then(() => {
+            router.push({ name: "students.index" });
+        });
+    };
 
     watch(
         () => form.class_id,
@@ -31,7 +40,7 @@
     <div class="mx-auto py-6 sm:px-6 lg:px-8">
         <div class="lg:grid lg:grid-cols-12 lg:gap-x-5">
             <div class="space-y-6 sm:px-6 lg:px-0 lg:col-span-12">
-                <form>
+                <form @submit.prevent="submit(form)">
                     <div class="shadow sm:rounded-md sm:overflow-hidden">
                         <div class="bg-white py-6 px-4 space-y-6 sm:p-6">
                             <div>
@@ -42,8 +51,12 @@
                             <div class="grid grid-cols-6 gap-6">
                                 <div class="col-span-6 sm:col-span-3">
                                     <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-                                    <input v-model="form.name" type="text" id="name" class="mt-1 block w-full border rounded-md shadow-sm py-2 px-3 focus:outline-none border-red-300 @enderror" />
-                                    <p class="text-red-500">This field is required</p>
+                                    <input
+                                        v-model="form.name"
+                                        type="text"
+                                        id="name"
+                                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                                    <p class="text-red-500 text-sm" v-if="errors.name">{{ errors.name[0] }}</p>
                                 </div>
 
                                 <div class="col-span-6 sm:col-span-3">
@@ -54,6 +67,7 @@
                                         id="email"
                                         autocomplete="email"
                                         class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                                    <p class="text-red-500 text-sm" v-if="errors.email">{{ errors.email[0] }}</p>
                                 </div>
 
                                 <div class="col-span-6 sm:col-span-3">
@@ -65,6 +79,7 @@
                                         <option value="">Select a Class</option>
                                         <option v-for="item in classes" :key="item.id" :value="item.id">{{ item.name }}</option>
                                     </select>
+                                    <p class="text-red-500 text-sm" v-if="errors.class_id">{{ errors.class_id[0] }}</p>
                                 </div>
 
                                 <div class="col-span-6 sm:col-span-3">
@@ -76,6 +91,7 @@
                                         <option value="">Select a Section</option>
                                         <option v-for="section in sections" :key="section.id" :value="section.id">{{ section.name }}</option>
                                     </select>
+                                    <p class="text-red-500 text-sm" v-if="errors.section_id">{{ errors.section_id[0] }}</p>
                                 </div>
                             </div>
                         </div>
