@@ -1,18 +1,29 @@
 <script setup>
     import useStudent from "@/composable/useStudent";
-    import { onMounted } from "vue";
+    import { onMounted, ref } from "vue";
     import { RouterLink } from "vue-router";
 
     const { fetchStudents, students } = useStudent();
 
+    const isLoading = ref(true);
+
     onMounted(async () => {
+        isLoading.value = true;
         await fetchStudents();
+        isLoading.value = false;
     });
 </script>
 
 <template>
     <div class="py-10">
-        <div class="mx-auto">
+        <div v-if="isLoading" class="mt-8 flex justify-center items-center">
+            <svg class="animate-spin h-6 w-6 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+            </svg>
+        </div>
+
+        <div v-else class="mx-auto">
             <div class="px-4 sm:px-6 lg:px-8">
                 <div class="sm:flex sm:items-center">
                     <div class="sm:flex-auto">
