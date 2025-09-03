@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Resources\StudentResource;
 use Illuminate\Http\Response;
 use App\Http\Requests\StoreStudentRequest;
+use App\Http\Requests\UpdateStudentRequest;
 
 class StudentController extends Controller
 {
@@ -41,16 +42,20 @@ class StudentController extends Controller
     public function show(Student $student)
     {
         return response()->json([
-            "student" => $student,
+            "student" => StudentResource::make($student),
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateStudentRequest $request, Student $student)
     {
-        //
+        $student->update($request->validated());
+
+        return response()->json([
+            'message' => 'Student updated.'
+        ],Response::HTTP_OK);
     }
 
     /**
