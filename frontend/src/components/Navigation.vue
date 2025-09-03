@@ -26,6 +26,7 @@
                 </RouterLink>
                 <div v-if="authenticated" class="hidden lg:flex lg:gap-x-12">
                     <RouterLink :to="{ name: 'dashboard' }" class="text-sm font-semibold leading-6 text-gray-900"> Dashboard </RouterLink>
+                    <RouterLink :to="{ name: 'students.index' }" class="text-sm font-semibold leading-6 text-gray-900"> Students </RouterLink>
                 </div>
             </div>
             <div class="flex lg:hidden">
@@ -63,8 +64,13 @@
                 </div>
                 <div class="mt-6 flow-root">
                     <div class="-my-6 divide-y divide-gray-500/10">
-                        <div v-if="authenticated" class="space-y-2 py-6">
-                            <RouterLink :to="{ name: 'dashboard' }" class="text-sm font-semibold leading-6 text-gray-900"> Dashboard </RouterLink>
+                        <div v-if="authenticated" @click="mobileNavigation = false" class="space-y-5 py-6">
+                            <div>
+                                <RouterLink :to="{ name: 'dashboard' }" class="text-sm font-semibold leading-6 text-gray-900"> Dashboard </RouterLink>
+                            </div>
+                            <div>
+                                <RouterLink :to="{ name: 'students.index' }" class="text-sm font-semibold leading-6 text-gray-900"> Students </RouterLink>
+                            </div>
                         </div>
                         <div class="py-6">
                             <div v-if="authenticated">

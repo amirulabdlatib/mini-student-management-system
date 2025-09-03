@@ -2,12 +2,10 @@
     import useStudent from "@/composable/useStudent";
     import { onMounted, ref } from "vue";
 
-    const { fetchStudents } = useStudent();
+    const { fetchStudents, students } = useStudent();
 
-    const students = ref([]);
-
-    onMounted(() => {
-        fetchStudents();
+    onMounted(async () => {
+        await fetchStudents();
     });
 </script>
 
@@ -47,13 +45,13 @@
                                         </tr>
                                     </thead>
                                     <tbody class="divide-y divide-gray-200 bg-white">
-                                        <tr>
-                                            <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">1</td>
-                                            <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">John Doe</td>
-                                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">somemail@gmail.com</td>
-                                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Class 10</td>
-                                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Section A</td>
-                                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">2021-09-01</td>
+                                        <tr v-for="(student, index) in students" :key="student.id">
+                                            <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{ student.id }}</td>
+                                            <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{ student.name }}</td>
+                                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ student.email }}</td>
+                                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ student.class.name }}</td>
+                                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ student.section.name }}</td>
+                                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ student.created_at }}</td>
 
                                             <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                                                 <a href="#" class="text-indigo-600 hover:text-indigo-900"> Edit </a>

@@ -19,6 +19,7 @@ class StudentResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'email' => $this->email,
             'class' => ClassResource::make($this->class),
             'section' => SectionResource::make($this->section),
             'created_at' => $this->created_at->toDateString(),

@@ -16,7 +16,7 @@ class StudentController extends Controller
         // $studentsQuery = Student::query();
 
         return StudentResource::collection(
-            Student::latest()->limit(20)->get()
+            Student::paginate(10)
         );
     }
 
